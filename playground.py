@@ -13,6 +13,16 @@ population_url = "https://restcountries.eu/rest/v2/alpha/"
 
 
 def random_country():
+    headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0',
+    'ACCEPT' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    'ACCEPT-ENCODING' : 'gzip, deflate, br',
+    'ACCEPT-LANGUAGE' : 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
+    'REFERER' : 'https://www.google.com/'
+}
+    country_url = "http://country.io/names.json"
+    response = requests.get(country_url, headers=headers)
+    countries = json.loads(response.text)
     letters = string.ascii_uppercase
     while True:
         random_country_code = "".join(random.choice(letters) for i in range(2))
@@ -21,6 +31,7 @@ def random_country():
         else:
             return random_country_code, countries[random_country_code]
 
+print(random_country())
 
 def extract_stats():
     while True:
