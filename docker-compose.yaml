@@ -1,0 +1,23 @@
+version: "3.3"
+services:
+  country_api:
+    image: jaydenlsf/country_api
+    build: ./country_api
+  population_api:
+    image: jaydenlsf/population_api
+    build: ./population_api
+  stats_api:
+    image: jaydenlsf/stats_api
+    build: ./stats_api
+  covid-19-app:
+    image: jaydenlsf/server
+    build: ./server
+  nginx:
+    image: nginx:alpine
+    volumes:
+    - type: bind
+      source: ./nginx/nginx.conf
+      target: /etc/nginx/nginx.conf
+    ports:
+    - published: 80
+      target: 80
