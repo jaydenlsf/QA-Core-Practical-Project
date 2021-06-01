@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# remove existing images
-docker rmi -f $(docker images -q)
-
 # remove existing containers
 docker rm -f $(docker ps -q)
+
+# remove existing images
+docker rmi -f $(docker images -q)
 
 # remove existing network with the same name
 docker network rm mynetwork
