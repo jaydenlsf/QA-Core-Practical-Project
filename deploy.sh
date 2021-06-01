@@ -25,7 +25,7 @@ docker build -t stats_api stats_api
 docker network create mynetwork
 
 # run containers
-docker run -d -p 5001:5001 --name server --network mynetwork server
+docker run -d -p 5000:5000 --name server --network mynetwork server
 docker run -d --name country_api --network mynetwork country_api
 docker run -d --name population_api --network mynetwork population_api
 docker run -d --name stats_api --network mynetwork stats_api
