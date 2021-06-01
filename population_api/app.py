@@ -13,7 +13,7 @@ def get_population():
         return str(response.status_code)
     else:
         population = json.loads(response.text)['population']
-        return str(population)
+        return f"{population:,d}"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
