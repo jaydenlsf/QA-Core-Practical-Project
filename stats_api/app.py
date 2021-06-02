@@ -11,7 +11,7 @@ def get_stats():
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
         title = soup.find('title').text
-        if '404' in title or response.status_code != 200:
+        if response.status_code != 200:
             return f"No data found for {country_name}. Please refresh the page."
         else:
             stat = soup.find('li', class_='news_li').text
