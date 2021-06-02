@@ -1,13 +1,22 @@
 from flask import url_for
 from flask_testing import TestCase
-import requests_mock
 from app import app
 
 class TestBase(TestCase):
     def create_app(self):
         return app
 
-class TestAPI(TestBase):
-    def test_api(self):
-        with requests_mock.Mocker() as mocker:
-            mocker.get()
+class TestPopulationAPI(TestBase):
+    def test_population_api(self):
+        response = self.client.post(url_for('get_population'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_uk_population(self):
+        response = self.client.post(url_for('get_population'), data='gb').data.decode('utf-8')
+        population = int(response.replace(',', ''))
+        self.assertTrue(population > 65000000)
+
+    def test_us_population(self):
+        response = self.client.post(url_for('get_population'), data='us').data.decode('utf-8')
+        population = int(response.replace(',', ''))
+        self.assertTrue(population > 320000000)
