@@ -4,11 +4,17 @@ pipeline {
         DATABASE_URI = credentials("DATABASE_URI_COVID")
         username = credentials("USERNAME")
         password = credentials("PASSWORD")
+        DOCKER_LOGIN = credentials('DOCKER_LOGIN')
     }
     stages {
         stage('Test') {
             steps {
                 sh 'bash Jenkins/test.sh'
+            }
+        }
+        stage('Setup Docker') {
+            steps {
+                sh 'bash Jenkins/setup-docker.sh'
             }
         }
         stage('Build') {
