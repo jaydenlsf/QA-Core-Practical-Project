@@ -31,9 +31,16 @@ pipeline {
                 sh 'docker-compose push'
             }
         }
+        // stage('Ansible configuration') {
+        //     steps {
+        //         sh 'sudo apt install ansible -y'
+        //         sh 'bash install_ansible.sh'
+        //         sh 'ansible-playbook -i ./ansible/inventory.yaml ./ansible/playbook.yaml'
+        //     }
+        // }
         stage('Run') {
             steps {
-                sh 'docker-compose up -d'
+                sh 'bash deploy.sh'
             }
         }
     }

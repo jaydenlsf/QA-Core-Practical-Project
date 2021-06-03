@@ -2,7 +2,6 @@ beautifulsoup4==4.9.3
 bs4==0.0.1
 coverage==5.5
 Flask==2.0.1
-Flask-SQLAlchemy==2.5.1
 Flask-Testing==0.8.1
 Jinja2==3.0.1
 py==1.10.0
