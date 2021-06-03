@@ -1,15 +1,19 @@
 version: "3.8"
 services:
   country_api:
+    container_name: country_api
     image: jaydenlsf/country_api
     build: ./country_api
   population_api:
+    container_name: population_api
     image: jaydenlsf/population_api
     build: ./population_api
   stats_api:
+    container_name: stats_api
     image: jaydenlsf/stats_api
     build: ./stats_api
   covid-19-app:
+    container_name: covid-19-app
     image: jaydenlsf/server
     build: ./server
   nginx:
