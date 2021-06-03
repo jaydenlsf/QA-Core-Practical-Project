@@ -51,7 +51,7 @@ The continuous integration approach allowed me to frequently integrate modified 
 - Unit tests are run and a coverage report is produced and can be viewed in the console log.
 
 #### 2. Setup Docker
-- Install docker and add Jenkins to docker group
+- Install docker (if it is not already installed) and add Jenkins to docker group
 
 #### 3. Build docker-compose
 - Build images for each service
