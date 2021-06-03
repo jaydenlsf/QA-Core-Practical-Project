@@ -2,9 +2,8 @@ pipeline {
     agent any
     environment {
         DATABASE_URI = credentials("DATABASE_URI_COVID")
-        username = credentials("USERNAME")
-        password = credentials("PASSWORD")
         DOCKER_LOGIN = credentials('DOCKER_LOGIN')
+        install_docker = 'false'
     }
     stages {
         stage('Test') {
@@ -14,7 +13,11 @@ pipeline {
         }
         stage('Setup Docker') {
             steps {
-                sh 'bash Jenkins/setup-docker.sh'
+                script {
+                    if (env.install_docker == 'true') {
+                        sh 'bash Jenkins/setup-docker.sh'
+                    }
+                }
             }
         }
         stage('Build') {
