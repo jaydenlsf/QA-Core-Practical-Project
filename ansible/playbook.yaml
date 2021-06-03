@@ -1,0 +1,21 @@
+- hosts:
+  - manager
+  - worker
+  become: true
+  roles:
+  - install docker
+
+- hosts: manager
+  become: true
+  roles:
+  - swarm-manager
+
+- hosts: worker
+  become: true
+  roles:
+  - swarm-worker
+
+- hosts: load_balancer
+  become: true
+  roles:
+  - nginx
