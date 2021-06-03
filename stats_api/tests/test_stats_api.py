@@ -1,5 +1,6 @@
 from flask import url_for
 from flask_testing import TestCase
+from requests_mock import mock
 from app import app
 
 class TestBase(TestCase):
@@ -7,11 +8,11 @@ class TestBase(TestCase):
         return app
 
 class TestStatsAPI(TestBase):
-    def test_stats_api(self):
-        response = self.client.post(url_for('get_stats'))
+    def test_get_stat(self):
+        info = {'country': 'Sri Lanka', 'population': '252000'}
+        response = self.client.post(url_for('get_stats'), json=info)
         self.assertEqual(response.status_code, 200)
-
-    def test_uk_stats(self):
-        response = self.client.post(url_for('get_stats'), data='uk').data.decode('utf-8')
-        stats = int(response.replace(',', ''))
-        self.assertTrue(stats >= 0)
+    
+    # def test_stats(self):
+    #     response = self.client.post(url_for('get_stats'), json={'country': 'Sri Lanka'})
+    #     self.assertTrue(response >= 0)

@@ -12,5 +12,5 @@ class TestAPI(TestBase):
         content = response.data.decode('utf-8')
         country_code = content.split('-')[0]
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(type(content == str))
-        self.assertTrue(len(country_code) == 2)
+        self.assertEqual(type(content), str)
+        self.assertEqual(len(country_code), 2)
