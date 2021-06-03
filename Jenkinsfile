@@ -14,11 +14,11 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'docker-compose build --parallel'
-                sh 'docker login -u $(username) -p $(password)'
             }
         }
         stage('Push') {
             steps {
+                sh 'docker login -u $(username) -p $(password)'
                 sh 'docker-compose push'
             }
         }
