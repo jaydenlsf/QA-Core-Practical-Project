@@ -1,17 +1,20 @@
 pipeline {
     agent any
     environment {
-
+        DATABASE_URI = credentials("DATABASE_URI_COVID")
+        username = credentials("USERNAME")
+        password = credentials("PASSWORD")
     }
     stages {
         stage('Test') {
             steps {
-                sh 'bash jenkins/test.sh'
+                sh 'bash Jenkins/test.sh'
             }
         }
         stage('Build') {
             steps {
-                sh 'bash jenkins/deploy.sh'
+                sh 'docker-compose build --parallel'
+                sh 'docker login -u $(username) -p $(password)'
             }
         }
         stage('Push') {
@@ -21,12 +24,14 @@ pipeline {
         }
         stage('Run') {
             steps {
-                // steps here
+                sh 'bash Jenkins/deploy.sh'
             }
         }
     }
     post {
-        junit '**/*.xml'
-        cobertura coberturaReportFile: 'coverage.xml', failNoReports: false
+        always {
+            junit '**/*.xml'
+            cobertura coberturaReportFile: 'coverage.xml', failNoReports: false
+        }
     }
 }
