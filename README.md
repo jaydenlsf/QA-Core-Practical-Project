@@ -47,24 +47,24 @@ ADD TESTING ANALYSIS
 ### Continuous Integration Pipeline
 The continuous integration approach allowed me to frequently integrate modified code, and this is achieved through the use of automated testing tools to check the code before full integration. Whenever a new commit is pushed to the `dev` branch on version control system (Github), Jenkins will automatically fetch the changes via Github webhook and run unit and integration tests:
 
-1. Test
+#### 1. Test
 - Unit tests are run and a coverage report is produced and can be viewed in the console log.
 
-2. Setup Docker
+#### 2. Setup Docker
 - Install docker and add Jenkins to docker group
 
-3. Build docker-compose
+#### 3. Build docker-compose
 - Build images for each service
 
-4. Push docker-compose
+#### 4. Push docker-compose
 - Login to DockerHub by refering to the login credentials set on Jenkins' credential system, and then push the images to the repository specified
 
-5. Ansible configuration
+#### 5. Ansible configuration
 - Install dependencies
 - Setting up swarm manager and joining a swarm working to the manager node
 - Reload NGINX when a change is made to nginx.conf file
 
-6. Deploy
+#### 6. Deploy
 - Jenkins copies the `docker-compose.yaml` file over to the manager node, SSH onto it, and then runs docker stack deploy to deploy the app to all nodes
 
 ![ci-pipeline](https://user-images.githubusercontent.com/54101378/120700876-1de58e80-c4aa-11eb-824c-95898e74c6cb.jpg)
