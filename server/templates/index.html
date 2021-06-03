@@ -13,6 +13,10 @@
     <h4>Country name: {{ country_name }}</h4>
     <h4>Population: {{ population }}</h4>
     <h4>New cases: {{ new_cases }}</h4>
+    <h4>Ratio: {{ percentage }}</h4>
+    {% for country in last_5 %}
+    {{ country.country_name }} - {{ country.population }} - {{ country.new_cases}} - {{ country.percentage }}<br>
+    {% endfor %}
 </body>
 
 </html>
