@@ -1,4 +1,5 @@
 from flask import Flask, request
+from flask.json import jsonify
 import requests
 from bs4 import BeautifulSoup
 
@@ -6,18 +7,23 @@ app = Flask(__name__)
 
 @app.route('/get_stats', methods=['POST'])
 def get_stats():
-        country_name = request.data.decode('utf-8')
+        country_name = request.json['country']
+        population = int(request.json['population'].replace(',',''))
         url = "https://www.worldometers.info/coronavirus/country/" + country_name
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
-        title = soup.find('title').text
+
         if response.status_code != 200:
-            return f"No data found for {country_name}. Please refresh the page."
+            new_cases = 0
         else:
-            stat = soup.find('li', class_='news_li').text
-            new_cases = stat.split(' ')[0]
-            return str(new_cases)
+            try:
+                stat = soup.find('li', class_='news_li').text
+                new_cases = int(stat.split(' ')[0].replace(',', ''))
+            except:
+                new_cases = 0
+        
+        percentage = new_cases/population
+        return jsonify({'new_cases': new_cases, 'percentage': percentage})
     
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == '__main__': app.run(host='0.0.0.0', port=5000, debug=True)

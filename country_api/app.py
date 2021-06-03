@@ -15,11 +15,9 @@ def get_country():
     letters = string.ascii_uppercase
     while True:
         random_country_code = "".join(random.choice(letters) for i in range(2))
-        if random_country_code not in countries:
-            continue
+        if random_country_code not in countries: continue
         else:
             return f"{random_country_code}-{countries[random_country_code]}"
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+if __name__ == "__main__": app.run(host="0.0.0.0", port=5000, debug=True)

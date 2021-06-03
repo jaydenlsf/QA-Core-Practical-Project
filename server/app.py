@@ -1,9 +1,9 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import requests
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@34.105.152.58/covid_19_app'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
 class CovidStats(db.Model):
@@ -12,6 +12,7 @@ class CovidStats(db.Model):
     country_name = db.Column(db.String(60), nullable=False)
     population = db.Column(db.String(30))
     new_cases = db.Column(db.String(30))
+    percentage = db.Column(db.String(30))
 
 
 @app.route("/")
@@ -25,24 +26,28 @@ def home():
     population = requests.post("http://population_api:5000/get_population", data=country_code).text
     
     if country_code == 'UK' or country_code == 'US':
-        new_cases = requests.post('http://stats_api:5000/get_stats', data=country_code).text
+        info = {'country': country_code, 'population': population}
     else:
-        new_cases = requests.post('http://stats_api:5000/get_stats', data=country_name_adjusted).text
+        info = {'country': country_name_adjusted, 'population': population}
+    response = requests.post('http://stats_api:5000/get_stats', json=info)
+    new_cases = response.json()['new_cases']
+    percentage = response.json()['percentage']
 
-    if len(new_cases) > 6:
+    if len(str(new_cases)) > 6:
         return redirect(url_for('home'))
 
+    last_5 = CovidStats.query.order_by(CovidStats.id.desc()).limit(5).all()
     new_country_stats = CovidStats(
         country_code=country_code,
         country_name=country_name,
         population=population,
-        new_cases=new_cases
+        new_cases=new_cases,
+        percentage=percentage
     )
     db.session.add(new_country_stats)
     db.session.commit()
 
-    return render_template("index.html", country_code=country_code, country_name=country_name, population=population, new_cases=new_cases)
+    return render_template("index.html", country_code=country_code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', percentage=percentage, last_5=last_5)
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+if __name__ == "__main__": app.run(host="0.0.0.0", port=5000, debug=True)
