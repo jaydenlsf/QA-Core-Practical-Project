@@ -19,7 +19,7 @@
 
 - name: 'print nginx info to console'
   debug:
-    msg: '{{ nginx_config }}'
+    msg: "{{ nginx_config }}"
 
 - name: 'restart nginx if needed'
   service:
