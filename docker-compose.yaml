@@ -16,5 +16,6 @@ services:
     container_name: covid-19-app
     image: jaydenlsf/server
     build: ./server
-    - published: 5000
-      target: 5000
+    ports:
+      - published: 5000
+        target: 5000
