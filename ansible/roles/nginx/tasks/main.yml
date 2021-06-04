@@ -5,11 +5,6 @@
     state: latest
     update_cache: true
 
-- name: 'start nginx service'
-  service:
-    name: nginx
-    state: started
-
 - name: 'install nginx.conf file on the remote machine'
   template:
     src: nginx.conf
