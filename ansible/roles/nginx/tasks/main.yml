@@ -13,7 +13,7 @@
 
 - name: 'install nginx.conf file on the remote machine'
   template:
-    src: /templates/nginx.conf
+    src: nginx.conf
     dest: /etc/nginx/nginx.conf
   register: nginx_config
 
