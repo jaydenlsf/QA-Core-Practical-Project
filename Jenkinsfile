@@ -33,6 +33,7 @@ pipeline {
         }
         stage('Ansible configuration') {
             steps {
+                sh 'export ANSIBLE_HOST_KEY_CHECKING=False'
                 sh 'sudo apt install ansible -y'
                 sh 'bash install_ansible.sh'
                 sh 'ansible-playbook -i ./ansible/inventory.yaml ./ansible/playbook.yaml'
