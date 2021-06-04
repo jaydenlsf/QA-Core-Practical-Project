@@ -13,13 +13,13 @@
 
 - name: 'install nginx.conf file on the remote machine'
   template:
-    src: nginx.conf
+    src: /templates/nginx.conf
     dest: /etc/nginx/nginx.conf
   register: nginx_config
 
-# - name: 'print nginx info to console'
-#   debug:
-#     msg: '{{ nginx_config }}'
+- name: 'print nginx info to console'
+  debug:
+    msg: '{{ nginx_config }}'
 
 - name: 'restart nginx if needed'
   service:
