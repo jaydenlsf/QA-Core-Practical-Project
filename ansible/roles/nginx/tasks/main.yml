@@ -20,8 +20,8 @@
   debug:
     msg: "{{ nginx_config }}"
 
-# - name: 'restart nginx if needed'
-#   service:
-#     name: nginx
-#     state: restarted
-#   when: nginx_config.changed == true
+- name: 'restart nginx if needed'
+  service:
+    name: nginx
+    state: restarted
+  when: nginx_config.changed == true
