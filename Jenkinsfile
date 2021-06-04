@@ -11,15 +11,15 @@ pipeline {
                 sh 'bash Jenkins/test.sh'
             }
         }
-        stage('Setup Docker') {
-            steps {
-                script {
-                    if (env.install_docker == 'true') {
-                        sh 'bash Jenkins/setup-docker.sh'
-                    }
-                }
-            }
-        }
+        // stage('Setup Docker') {
+        //     steps {
+        //         script {
+        //             if (env.install_docker == 'true') {
+        //                 sh 'bash Jenkins/setup-docker.sh'
+        //             }
+        //         }
+        //     }
+        // }
         stage('Build') {
             steps {
                 sh 'docker-compose build --parallel'
