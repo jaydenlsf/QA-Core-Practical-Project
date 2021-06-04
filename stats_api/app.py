@@ -22,7 +22,7 @@ def get_stats():
             except:
                 new_cases = 0
         
-        percentage = new_cases/population
+        percentage = new_cases*100 /population
         return jsonify({'new_cases': new_cases, 'percentage': percentage})
     
 

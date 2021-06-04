@@ -13,7 +13,7 @@ class CovidStats(db.Model):
     country_name = db.Column(db.String(60), nullable=False)
     population = db.Column(db.String(30))
     new_cases = db.Column(db.String(30))
-    percentage = db.Column(db.String(30))
+    ratio = db.Column(db.String(30))
 
 
 @app.route("/")
@@ -32,7 +32,7 @@ def home():
         info = {'country': country_name_adjusted, 'population': population}
     response = requests.post('http://stats_api:5000/get_stats', json=info)
     new_cases = response.json()['new_cases']
-    percentage = response.json()['percentage']
+    ratio = response.json()['percentage']
 
     if len(str(new_cases)) > 6:
         return redirect(url_for('home'))
@@ -43,12 +43,12 @@ def home():
         country_name=country_name,
         population=population,
         new_cases=new_cases,
-        percentage=percentage
+        ratio=ratio
     )
     db.session.add(new_country_stats)
     db.session.commit()
 
-    return render_template("index.html", country_code=country_code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', percentage=percentage, last_5=last_5)
+    return render_template("index.html", country_code=country_code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', ratio=f'{ratio:.2e}', last_5=last_5)
 
 
 if __name__ == "__main__": app.run(host="0.0.0.0", port=5000, debug=True)

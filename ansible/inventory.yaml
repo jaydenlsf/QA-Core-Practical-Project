@@ -1,14 +1,14 @@
 all:
   children:
+    load_balancer:
+      hosts:
+        nginx:
     manager:
       hosts:
-        manager:
-      vars:
-        ansible_user: Jayden
-        ansible_ssh_private_key_file: '~/.ssh/ansible_id_rsa'
+        swarm-master:
     worker:
       hosts:
-        ansible-vm-2:
-      vars:
-        ansible_user: Jayden
-        ansible_ssh_private_key_file: '~/.ssh/ansible_id_rsa'
+        swarm-worker:
+  vars:
+    ansible_user: jenkins 
+    ansible_ssh_private_key_file: '~/.ssh/id_rsa'
