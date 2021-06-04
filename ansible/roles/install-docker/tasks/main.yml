@@ -9,6 +9,8 @@
     - lsb-release
     - python3
     - python3-pip
+    state: latest
+    update_cache: true
 
 - name: "Get Docker APT key"
   ansible.builtin.apt_key:
@@ -32,3 +34,8 @@
     name: Jayden
     groups: docker
     append: yes
+
+- name: "Install Docker with pip"
+  pip:
+    name: docker
+    executable: pip3

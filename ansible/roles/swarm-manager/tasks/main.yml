@@ -1,2 +1,13 @@
 ---
-# tasks file for swarm-manager
+- name: 'init docker swarm'
+  docker_swarm:
+    state: present
+
+- name: 'display swarm info'
+  docker_swarm_info:
+  register: swarm_info
+
+- name: 'add user to docker group'
+  user:
+    name: "{{ lookup('env', 'USER') }}"
+    groups: docker
