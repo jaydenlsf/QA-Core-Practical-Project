@@ -13,12 +13,12 @@
     update_cache: true
 
 - name: "Get Docker APT key"
-  ansible.builtin.apt_key:
+  apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: "Add Docker APT repo"
-  ansible.builtin.apt_repository:
+  apt_repository:
     repo: "deb https://download.docker.com/linux/ubuntu bionic stable"
     state: present
 
@@ -30,12 +30,7 @@
     - containerd.io
 
 - name: "Add user to Docker group"
-  ansible.builtin.user:
+  user:
     name: Jayden
     groups: docker
     append: yes
-
-- name: "Install Docker with pip"
-  pip:
-    name: docker
-    executable: pip3
