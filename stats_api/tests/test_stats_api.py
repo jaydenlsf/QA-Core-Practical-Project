@@ -16,3 +16,4 @@ class TestStatsAPI(TestBase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(type(new_cases), int)
         self.assertTrue(ratio >= 0)
+        self.assertTrue(1, 1)
