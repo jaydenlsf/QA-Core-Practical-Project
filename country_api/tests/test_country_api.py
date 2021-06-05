@@ -18,3 +18,4 @@ class TestAPI(TestBase):
         self.assertEqual(type(response), json)
         self.assertEqual(len(country_code), 2)
         self.assertEqual(type(country_name), str)
+        self.assertEqual(1, 1)
