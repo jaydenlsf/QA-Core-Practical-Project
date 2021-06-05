@@ -16,6 +16,5 @@ class TestAPI(TestBase):
         country_name = json.loads(response_data)['country_name']
         self.assertEqual(response.status_code, 200)
         # self.assertEqual(type(content), str)
-        self.assertEqual(type(response), json)
         self.assertEqual(len(country_code), 2)
         self.assertEqual(type(country_name), str)
