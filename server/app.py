@@ -28,8 +28,7 @@ def home():
     population_response = requests.post("http://population_api:5000/get_population", data=country_code)
     population = population_response.json()['population']
     
-    if country_code == 'UK' or country_code == 'US':
-        info = {'country': country_code, 'population': population}
+    if country_code == 'UK' or country_code == 'US': info = {'country': country_code, 'population': population}
     else:
         info = {'country': country_name_adjusted, 'population': population}
 
@@ -37,9 +36,8 @@ def home():
     new_cases = stats_response.json()['new_cases']
     ratio = stats_response.json()['ratio']
 
-    if len(str(new_cases)) > 6:
-        return redirect(url_for('home'))
-
+    if len(str(new_cases)) > 6: return redirect(url_for('home'))
+        
     last_5 = CovidStats.query.order_by(CovidStats.id.desc()).limit(5).all()
     
     new_country_stats = CovidStats(
