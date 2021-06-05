@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 @app.route('/get_stats', methods=['POST'])
 def get_stats():
-        country_name = request.json['country']
+        country = request.json['country']
         population = int(request.json['population'].replace(',',''))
-        url = "https://www.worldometers.info/coronavirus/country/" + country_name
+        url = "https://www.worldometers.info/coronavirus/country/" + country
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
 
