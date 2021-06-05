@@ -13,6 +13,7 @@ def get_population():
     if response.status_code != 200: return str(response.status_code)
     else:
         population = json.loads(response.text)['population']
-        return jsonify({'population': f"{population:,d}"})
+        alpha3code = json.loads(response.text)['alpha3Code']
+        return jsonify({'population': f"{population:,d}", 'alpha3code': alpha3code})
 
 if __name__ == '__main__': app.run(host='0.0.0.0', port=5000, debug=True)

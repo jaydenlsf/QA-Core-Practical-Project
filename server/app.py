@@ -8,9 +8,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-class CovidStats(db.Model):
+class CovidStatsV2(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     country_code = db.Column(db.String(30), nullable=False)
+    alpha3code = db.Column(db.String(30), nullable=False)
     country_name = db.Column(db.String(60), nullable=False)
     population = db.Column(db.String(30))
     new_cases = db.Column(db.String(30))
@@ -27,6 +28,7 @@ def home():
 
     population_response = requests.post("http://population_api:5000/get_population", data=country_code)
     population = population_response.json()['population']
+    alpha3code = population_response.json()['alpha3code']
     
     if country_code == 'UK' or country_code == 'US': info = {'country': country_code, 'population': population}
     else:
@@ -38,10 +40,11 @@ def home():
 
     if len(str(new_cases)) > 6: return redirect(url_for('home'))
         
-    last_5 = CovidStats.query.order_by(CovidStats.id.desc()).limit(5).all()
+    last_5 = CovidStatsV2.query.order_by(CovidStatsV2.id.desc()).limit(5).all()
     
-    new_country_stats = CovidStats(
+    new_country_stats = CovidStatsV2(
         country_code=country_code,
+        alpha3code = alpha3code,
         country_name=country_name,
         population=population,
         new_cases=new_cases,
@@ -50,7 +53,7 @@ def home():
     db.session.add(new_country_stats)
     db.session.commit()
 
-    return render_template("index.html", country_code=country_code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', ratio=f'{ratio:.2e}', last_5=last_5)
+    return render_template("index.html", country_code=country_code, alpha3code=alpha3code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', ratio=f'{ratio:.2e}', last_5=last_5)
 
 
 if __name__ == "__main__": app.run(host="0.0.0.0", port=5000, debug=True)

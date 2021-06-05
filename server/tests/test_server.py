@@ -1,6 +1,6 @@
 from flask_testing import TestCase
 from flask import url_for
-from app import app, db, CovidStats
+from app import app, db, CovidStatsV2
 from requests_mock import mock
 import json
 
@@ -23,14 +23,15 @@ class TestHome(TestBase):
     def test_home(self):
         with mock() as m:
             m.get("http://country_api:5000/get_country", json={'country_code': 'gb', 'country_name': 'united kingdom'})
-            m.post("http://population_api:5000/get_population", json={'population': '65,110,000'})
+            m.post("http://population_api:5000/get_population", json={'population': '65,110,000', 'alpha3code': 'gbr'})
             m.post('http://stats_api:5000/get_stats', json={'new_cases': 896054, 'ratio': 0.001})
 
             response = self.client.get(url_for('home'))
             self.assertEqual(response.status_code, 200)
 
-            covid_stats = CovidStats.query.filter_by(id=1).first()
+            covid_stats = CovidStatsV2.query.filter_by(id=1).first()
             self.assertEqual(covid_stats.country_code, 'gb')
+            self.assertEqual(covid_stats.alpha3code, 'gbr')
             self.assertEqual(covid_stats.country_name, 'united kingdom')
             self.assertEqual(covid_stats.population, '65,110,000')
             self.assertEqual(covid_stats.new_cases, '896054')
