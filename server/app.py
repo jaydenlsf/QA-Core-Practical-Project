@@ -15,7 +15,7 @@ class CovidStatsV2(db.Model):
     country_name = db.Column(db.String(60), nullable=False)
     population = db.Column(db.String(30))
     new_cases = db.Column(db.String(30))
-    ratio = db.Column(db.String(30))
+    percentage = db.Column(db.String(30))
 
 
 @app.route("/")
