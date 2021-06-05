@@ -9,7 +9,7 @@ class TestBase(TestCase):
 
 class TestAPI(TestBase):
     def test_api(self):
-        response = self.client.get(url_for('get_country'))
+        response = self.client.get(url_for('get_country')).data.decode('utf-8')
         # content = response.data.decode('utf-8')
         country_code = json.loads(response)['country_code']
         country_name = json.loads(response)['country_name']
