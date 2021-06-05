@@ -12,7 +12,7 @@ class TestStatsAPI(TestBase):
         response = self.client.post(url_for('get_stats'), json={'country': 'Sri Lanka', 'population': '252000'})
         response_data = response.data.decode('utf-8')
         new_cases = json.loads(response_data)['new_cases']
-        ratio = json.loads(response_data)['ratio']
+        percentage = json.loads(response_data)['percentage']
         self.assertEqual(response.status_code, 200)
         self.assertEqual(type(new_cases), int)
-        self.assertTrue(ratio >= 0)
+        self.assertTrue(percentage >= 0)
