@@ -36,7 +36,7 @@ def home():
 
     stats_response = requests.post('http://stats_api:5000/get_stats', json=info)
     new_cases = stats_response.json()['new_cases']
-    ratio = stats_response.json()['ratio']
+    percentage = stats_response.json()['percentage']
 
     if len(str(new_cases)) > 6: return redirect(url_for('home'))
         
@@ -48,12 +48,12 @@ def home():
         country_name=country_name,
         population=population,
         new_cases=new_cases,
-        ratio=ratio
+        percentage=percentage
     )
     db.session.add(new_country_stats)
     db.session.commit()
 
-    return render_template("index.html", country_code=country_code, alpha3code=alpha3code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', ratio=f'{ratio:.2e}', last_5=last_5)
+    return render_template("index.html", country_code=country_code, alpha3code=alpha3code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', percentage=f'{percentage:.2e}', last_5=last_5)
 
 
 if __name__ == "__main__": app.run(host="0.0.0.0", port=5000, debug=True)

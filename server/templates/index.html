@@ -22,7 +22,7 @@
     <h4>Country name: {{ country_name }}</h4>
     <h4>Population: {{ population }}</h4>
     <h4>New cases: {{ new_cases }}</h4>
-    <h4>Ratio of population involved in new cases: {{ ratio }}</h4><br>
+    <h4>Percentage of population involved in new cases: {{ percentage }}%</h4><br>
     {% for country in last_5 %}
     <p>{{ country.country_name }} | New cases: {{ country.new_cases}}</p>
     {% endfor %}
