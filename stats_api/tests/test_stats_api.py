@@ -14,6 +14,5 @@ class TestStatsAPI(TestBase):
         new_cases = json.loads(response_data)['new_cases']
         ratio = json.loads(response_data)['ratio']
         self.assertEqual(response.status_code, 200)
-    
-    
-    
+        self.assertEqual(type(new_cases), int)
+        self.assertTrue(ratio >= 0)
