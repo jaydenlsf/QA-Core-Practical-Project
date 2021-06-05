@@ -15,8 +15,8 @@ def get_country():
     countries = json.loads(response.text)
     letters = string.ascii_uppercase
     while True:
-        random_country_code = "".join(random.choice(letters) for i in range(2))
-        if random_country_code not in countries: continue
+        random_country_code = "".join(random.choice(letters) for i in range(3))
+        if random_country_code[:2] not in countries: continue
         else:
             return jsonify({'country_code': random_country_code, 'country_name': countries[random_country_code]})
 
