@@ -4,18 +4,26 @@ services:
     container_name: country_api
     image: jaydenlsf/country_api
     build: ./country_api
+    deploy:
+      replicas: 3
   population_api:
     container_name: population_api
     image: jaydenlsf/population_api
     build: ./population_api
+    deploy:
+      replicas: 3
   stats_api:
     container_name: stats_api
     image: jaydenlsf/stats_api
     build: ./stats_api
+    deploy:
+      replicas: 3
   covid-19-app:
     container_name: covid-19-app
     image: jaydenlsf/server
     build: ./server
+    deploy:
+      replicas: 3
     ports:
       - published: 5000
         target: 5000
