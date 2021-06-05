@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import requests
+import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -19,9 +20,9 @@ class CovidStats(db.Model):
 @app.route("/")
 @app.route("/home")
 def home():
-    country_response = requests.get("http://country_api:5000/get_country").text
-    country_code = country_response.split('-')[0]
-    country_name = country_response.split('-')[1]
+    country_response = requests.get("http://country_api:5000/get_country")
+    country_code = json.loads(country_response.text)['country_code']
+    country_name = json.loads(country_response.text)['country_name']
     country_name_adjusted = country_name.replace(' ', '-')
 
     population = requests.post("http://population_api:5000/get_population", data=country_code).text
