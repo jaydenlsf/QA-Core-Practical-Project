@@ -25,20 +25,23 @@ def home():
     country_name = json.loads(country_response.text)['country_name']
     country_name_adjusted = country_name.replace(' ', '-')
 
-    population = requests.post("http://population_api:5000/get_population", data=country_code).text
+    population_response = requests.post("http://population_api:5000/get_population", data=country_code)
+    population = population_response.json()['population']
     
     if country_code == 'UK' or country_code == 'US':
         info = {'country': country_code, 'population': population}
     else:
         info = {'country': country_name_adjusted, 'population': population}
-    response = requests.post('http://stats_api:5000/get_stats', json=info)
-    new_cases = response.json()['new_cases']
-    ratio = response.json()['percentage']
+
+    stats_response = requests.post('http://stats_api:5000/get_stats', json=info)
+    new_cases = stats_response.json()['new_cases']
+    ratio = stats_response.json()['ratio']
 
     if len(str(new_cases)) > 6:
         return redirect(url_for('home'))
 
     last_5 = CovidStats.query.order_by(CovidStats.id.desc()).limit(5).all()
+    
     new_country_stats = CovidStats(
         country_code=country_code,
         country_name=country_name,

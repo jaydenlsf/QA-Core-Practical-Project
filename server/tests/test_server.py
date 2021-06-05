@@ -23,7 +23,7 @@ class TestHome(TestBase):
         with mock() as m:
             # m.get("http://country_api:5000/get_country", text='gb-united kingdom')
             m.get("http://country_api:5000/get_country", json={'country_code': 'gb', 'country_name': 'united kingdom'})
-            m.post("http://population_api:5000/get_population", text='65,110,000')
+            m.post("http://population_api:5000/get_population", json={'population': '65,110,000'})
             m.post('http://stats_api:5000/get_stats', json={'new_cases': 896054, 'percentage': 0.000009})
 
             response = self.client.get(url_for('home'))

@@ -1,6 +1,6 @@
 from flask import url_for
 from flask_testing import TestCase
-from requests_mock import mock
+import json
 from app import app
 
 class TestBase(TestCase):
@@ -9,10 +9,11 @@ class TestBase(TestCase):
 
 class TestStatsAPI(TestBase):
     def test_get_stat(self):
-        info = {'country': 'Sri Lanka', 'population': '252000'}
-        response = self.client.post(url_for('get_stats'), json=info)
+        response = self.client.post(url_for('get_stats'), json={'country': 'Sri Lanka', 'population': '252000'})
+        response_data = response.data.decode('utf-8')
+        new_cases = json.loads(response_data)['new_cases']
+        ratio = json.loads(response_data)['ratio']
         self.assertEqual(response.status_code, 200)
     
-    # def test_stats(self):
-    #     response = self.client.post(url_for('get_stats'), json={'country': 'Sri Lanka'})
-    #     self.assertTrue(response >= 0)
+    
+    

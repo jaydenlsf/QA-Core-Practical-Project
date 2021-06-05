@@ -22,8 +22,8 @@ def get_stats():
             except:
                 new_cases = 0
         
-        percentage = new_cases*100 /population
-        return jsonify({'new_cases': new_cases, 'percentage': percentage})
+        ratio = new_cases /population
+        return jsonify({'new_cases': new_cases, 'ratio': ratio})
     
 
 if __name__ == '__main__': app.run(host='0.0.0.0', port=5000, debug=True)
