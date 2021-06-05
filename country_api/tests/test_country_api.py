@@ -11,11 +11,10 @@ class TestAPI(TestBase):
     def test_api(self):
         response = self.client.get(url_for('get_country'))
         # content = response.data.decode('utf-8')
-        country_code = json.loads(response.text)['country_code']
-        country_name = json.loads(response.text)['country_name']
+        country_code = json.loads(response)['country_code']
+        country_name = json.loads(response)['country_name']
         self.assertEqual(response.status_code, 200)
         # self.assertEqual(type(content), str)
         self.assertEqual(type(response), json)
         self.assertEqual(len(country_code), 2)
         self.assertEqual(type(country_name), str)
-        self.assertEqual(1, 1)
