@@ -37,7 +37,10 @@ def home():
     stats_response = requests.post('http://stats_api:5000/get_stats', json=info)
     new_cases = stats_response.json()['new_cases']
     percentage = stats_response.json()['percentage']
-
+    
+    if percentage == 0: percentage = 0
+    else: percentage = f'{percentage:2e}'
+        
     if len(str(new_cases)) > 6: return redirect(url_for('home'))
         
     last_5 = CovidStatsV2.query.order_by(CovidStatsV2.id.desc()).limit(5).all()
@@ -53,7 +56,7 @@ def home():
     db.session.add(new_country_stats)
     db.session.commit()
 
-    return render_template("index.html", country_code=country_code, alpha3code=alpha3code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', percentage=f'{percentage:.2e}', last_5=last_5)
+    return render_template("index.html", country_code=country_code, alpha3code=alpha3code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', percentage=percentage, last_5=last_5)
 
 
 if __name__ == "__main__": app.run(host="0.0.0.0", port=5000, debug=True)
