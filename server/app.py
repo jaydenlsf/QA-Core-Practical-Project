@@ -39,7 +39,7 @@ def home():
     percentage = stats_response.json()['percentage']
     
     if percentage == 0: percentage = 0
-    else: percentage = f'{percentage:2e}'
+    else: percentage = f'{percentage:.2e}'
         
     if len(str(new_cases)) > 6: return redirect(url_for('home'))
         
