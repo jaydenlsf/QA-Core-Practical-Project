@@ -35,12 +35,7 @@ A Kanban board (Trello) was used to document the progress of my project, which h
 
 ![trello](https://user-images.githubusercontent.com/54101378/120698979-b2022680-c4a7-11eb-9327-243fc5d44021.png)
 
-The link to this board can be found [here](https://trello.com/b/3ikIXUKP/qa-devops-core-practical-project).
-
-### Testing Analysis
-In order to make sure that the application works as intended, testing is an essential part of the project. Since all 4 services reliy on each other, it is crucial to test the functionality of individual routes, making sure each route is returning the desired information.
-
-ADD TESTING ANALYSIS
+The link to this board with updated lists can be found [here](https://trello.com/b/3ikIXUKP/qa-devops-core-practical-project).
 
 ## Infrastructure
 
@@ -84,7 +79,7 @@ By using an orchestration tool (Docker Swarm), we are able to create a network o
 ### Docker Containers
 The diagram below demonstrates the services interacting with each other.
 
-![containers-diagram](https://user-images.githubusercontent.com/54101378/120701835-4621bd00-c4ab-11eb-81cd-2ee8a4d62496.jpg)
+![services](https://user-images.githubusercontent.com/54101378/120929190-01cb3280-c6e0-11eb-809b-110981ec7b7d.png)
 
 #### Service 1 
 - Serve the front-end of the application and is responsible for communicating with the other 3 services, and finally for persisting some data in a SQL database.
@@ -97,3 +92,8 @@ The diagram below demonstrates the services interacting with each other.
 
 ### Service 4
 - Receive a POST request from Service 2, containing a country name, and then sends a GET request to https://www.worldometers.info/coronavirus/country/{country-name} to get new Covid-19 cases of the country. Service 4 also receives a POST request from Service 3 to get the population of that country and then calculate the percentage of population involved in the newly reported number of Covid-19 cases.
+
+### Testing Analysis
+In order to make sure that the application works as intended, testing is an essential part of the project. Since all 4 services rely on each other, it is crucial to test the functionality of individual routes, making sure each route is returning the desired information.
+
+Since the majority of the data is obtained from external APIs, I had to test each of the GET requests sent to those APIs to make sure that the appropriate data is being received by my application. While sometimes the response could contain no data (404 errors) or unwanted information, these are needed to be eliminated in order to avoid having wrong information getting rendered to the frontend or stored in the database of the application.
