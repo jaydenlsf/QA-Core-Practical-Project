@@ -97,3 +97,5 @@ The diagram below demonstrates the services interacting with each other.
 In order to make sure that the application works as intended, testing is an essential part of the project. Since all 4 services rely on each other, it is crucial to test the functionality of individual routes, making sure each route is returning the desired information.
 
 Since the majority of the data is obtained from external APIs, I had to test each of the GET requests sent to those APIs to make sure that the appropriate data is being received by my application. While sometimes the response could contain no data (404 errors) or unwanted information, these are needed to be eliminated in order to avoid having wrong information getting rendered to the frontend or stored in the database of the application.
+
+![test-analysis](https://user-images.githubusercontent.com/54101378/120931277-c4b76e00-c6e8-11eb-9424-ad9f999369f2.png)
