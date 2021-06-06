@@ -77,7 +77,7 @@ This application will only make use of one database as shown below:
 ### Interaction Diagram
 The following diagram shows the layout of the virtual machines involved in this project. This demonstrates the interaction where the user connects to the NGINX machine on port 80.
 
-ADD INTERACTION DIAGRAM
+![user-interaction](https://user-images.githubusercontent.com/54101378/120928976-fc211d00-c6de-11eb-93e2-fec97de877e0.png)
 
 By using an orchestration tool (Docker Swarm), we are able to create a network of virtual machines that are able to be accessed by the user to provide the same service. NGINX serves as the load balancer, automatically directing the connection to the VM with the least connections. Apart from that, NGINX also improves the security of the application by further abstracting the application from the user.
 
