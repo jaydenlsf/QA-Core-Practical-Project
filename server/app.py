@@ -17,7 +17,6 @@ class CovidStatsV2(db.Model):
     new_cases = db.Column(db.String(30))
     percentage = db.Column(db.String(30))
 
-
 @app.route("/")
 @app.route("/home")
 def home():
@@ -57,6 +56,5 @@ def home():
     db.session.commit()
 
     return render_template("index.html", country_code=country_code, alpha3code=alpha3code, country_name=country_name, population=population, new_cases=f'{new_cases:,}', percentage=percentage, last_5=last_5)
-
 
 if __name__ == "__main__": app.run(host="0.0.0.0", port=5000, debug=True)
