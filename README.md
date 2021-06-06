@@ -2,6 +2,21 @@
 
 ## Contents
 - [Brief](#brief)
+    - [Requirements](#requirements)
+    - [Proposal](#proposal)
+- [Architecture](#architecture)
+    - [Risk Assessment](#risk-assessment)
+    - [Project Tracking](#project-tracking)
+- [Infracstructure](#infrastructure)
+    - [Continuous Integration Pipeline](#continuous-integration-pipeline)
+    - [Database Structure](#database-structure)
+    - [Interaction Diagram](#interaction-diagram)
+    - [Docker Containers](#docker-containers)
+    - [Testing Analysis](#testing-analysis)
+    - [Refactoring](#refactoring)
+- [Development](#development)
+    - [Front-end Design](#front-end-design)
+    - [Unit Testing](#unit-testing)
 
 ## Brief
 To create a service-oriented architecture for the application, this application must be composed of at least 4 services that work together.
@@ -42,27 +57,28 @@ The link to this board with updated lists can be found [here](https://trello.com
 ### Continuous Integration Pipeline
 The continuous integration approach allowed me to frequently integrate modified code, and this is achieved through the use of automated testing tools to check the code before full integration. Whenever a new commit is pushed to the `dev` branch on version control system (Github), Jenkins will automatically fetch the changes via Github webhook and run unit and integration tests:
 
+![ci-pipeline](https://user-images.githubusercontent.com/54101378/120700876-1de58e80-c4aa-11eb-824c-95898e74c6cb.jpg)
+
 #### 1. Test
 - Unit tests are run and a coverage report is produced and can be viewed in the console log.
 
-#### 2. Setup Docker
-- Install docker (if it is not already installed) and add Jenkins to docker group
-
-#### 3. Build docker-compose
+#### 2. Build docker-compose
 - Build images for each service
 
-#### 4. Push docker-compose
+#### 3. Push docker-compose
 - Login to DockerHub by refering to the login credentials set on Jenkins' credential system, and then push the images to the repository specified
 
-#### 5. Ansible configuration
+#### 4. Ansible configuration
 - Install dependencies
 - Setting up swarm manager and joining a swarm working to the manager node
 - Reload NGINX when a change is made to nginx.conf file
 
-#### 6. Deploy
+#### 5. Deploy
 - Jenkins copies the `docker-compose.yaml` file over to the manager node, SSH onto it, and then runs docker stack deploy to deploy the app to all nodes
 
-![ci-pipeline](https://user-images.githubusercontent.com/54101378/120700876-1de58e80-c4aa-11eb-824c-95898e74c6cb.jpg)
+A stage view of the Jenkins pipeline set up can be seen in the image shown below:
+
+![pipeline](https://user-images.githubusercontent.com/54101378/120932667-9f2d6300-c6ee-11eb-9f00-e61516ab9cf5.png)
 
 ### Database Structure
 This application will only make use of one database as shown below:
@@ -87,10 +103,10 @@ The diagram below demonstrates the services interacting with each other.
 #### Service 2
 - Generate a random 2 character string (country Alpha-2 code) and sends a GET request to http://country.io/names.json to check if the string is valid. If it is, return the Alpha-2 code and the name of the country.
 
-### Service 3
+#### Service 3
 - Receive a POST request from Service 1, containing an Alpha-2 code, and then sends a GET request to https://restcountries.eu/rest/v2/alpha/{alpha-2-code} to get the population of the country.
 
-### Service 4
+#### Service 4
 - Receive a POST request from Service 2, containing a country name, and then sends a GET request to https://www.worldometers.info/coronavirus/country/{country-name} to get new Covid-19 cases of the country. Service 4 also receives a POST request from Service 3 to get the population of that country and then calculate the percentage of population involved in the newly reported number of Covid-19 cases.
 
 ### Testing Analysis
@@ -99,3 +115,21 @@ In order to make sure that the application works as intended, testing is an esse
 Since the majority of the data is obtained from external APIs, I had to test each of the GET requests sent to those APIs to make sure that the appropriate data is being received by my application. While sometimes the response could contain no data (404 errors) or unwanted information, these are needed to be eliminated in order to avoid having wrong information getting rendered to the frontend or stored in the database of the application.
 
 ![test-analysis](https://user-images.githubusercontent.com/54101378/120931277-c4b76e00-c6e8-11eb-9424-ad9f999369f2.png)
+
+### Refactoring
+
+## Development
+
+### Front-end Design
+When navigating to the NGINX IP on port 80, the request will be sent to one of the VMs running docker swarm (swarm manager or swarm worker). Other than that, the user could also navigate to the IP of any of the swarm VMs on port 5000 to view the front-end of the application. The front-end of the application is displayed using HTML (with Jinja2) for the layout, and CSS for styling. Each time the user refreshes the webpage, the application will generate data for a different country, and then save the information to the database.
+
+![fornt-end](https://user-images.githubusercontent.com/54101378/120931901-79eb2580-c6eb-11eb-9e79-bb79f22d4cb5.png)
+
+### Unit Testing
+Pytest was used to unit test the application. For the front-end, `requests-mock` module was also used to return known responses from HTTP requests without making an actual call. This is extremely useful as it it allows the developer to test the rest of the code without running into issues caused by random statements. Jenkins will automatically run the testing script whenever a new commit it pused to Github, and it will display the result of the test in stage logs and also produces a coverage report showing the portion of code that was tested.
+
+![unit-test](https://user-images.githubusercontent.com/54101378/120933029-3810ae00-c6f0-11eb-80c4-fe407a8177c2.png)
+
+Below is the test report shown in JUnit.xml format, which is a useful Jenkins plug-in to publish test reports in graphical visualisation for tracking failures and so on. 
+
+![test-result-trend](https://user-images.githubusercontent.com/54101378/120933742-6643bd00-c6f3-11eb-9a44-da3362f369ec.png)
