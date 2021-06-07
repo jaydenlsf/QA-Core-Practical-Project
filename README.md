@@ -74,7 +74,7 @@ The continuous integration approach allowed me to frequently integrate modified 
 
 #### 4. Ansible configuration
 - Install dependencies
-- Setting up swarm manager and joining a swarm working to the manager node
+- Setting up swarm manager and joining a swarm worker to the manager node
 - Reload NGINX when a change is made to nginx.conf file
 
 #### 5. Deploy
@@ -162,7 +162,7 @@ When navigating to the NGINX IP on port 80, the request will be sent to one of t
 ![front-end](https://user-images.githubusercontent.com/54101378/120931901-79eb2580-c6eb-11eb-9e79-bb79f22d4cb5.png)
 
 ### Unit Testing
-Pytest was used to unit test the application. For the front-end, `requests-mock` module was also used to return known responses from HTTP requests without making an actual call. This is extremely useful as it it allows the developer to test the rest of the code without running into issues caused by random statements. Jenkins will automatically run the testing script whenever a new commit it pused to Github, and it will display the result of the test in stage logs and also produces a coverage report showing the portion of code that was tested.
+Pytest was used to unit test the application. For the front-end, `requests-mock` module was also used to return known responses from HTTP requests without making an actual call. This is extremely useful as it it allows the developer to test the rest of the code without running into issues caused by random statements. Jenkins will automatically run the testing script whenever a new commit it pushed to Github, and it will display the result of the test in stage logs and also produces a coverage report showing the portion of code that was tested.
 
 ![unit-test](https://user-images.githubusercontent.com/54101378/120933029-3810ae00-c6f0-11eb-80c4-fe407a8177c2.png)
 
