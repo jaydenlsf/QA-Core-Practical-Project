@@ -47,7 +47,7 @@ For any project, risk assessment is required for identifying, analysing and resp
 
 A detailed risk assessment can be seen below, outlining the potential risks associated with this project:
 
-![risk-assessment](https://user-images.githubusercontent.com/54101378/120935457-c0944c00-c6fa-11eb-971a-e923ffe958c2.png)
+![risk-assessment](https://user-images.githubusercontent.com/54101378/121009665-5af0a000-c78c-11eb-95cc-51ae7b0a7f4a.png)
 
 ### Project Tracking
 A Kanban board (Trello) was used to document the progress of my project, which has allowed me to effectively organise and prioritise tasks in a flexible way.
